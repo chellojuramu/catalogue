@@ -41,13 +41,13 @@ pipeline {
         }
 
         // 🔷 QUALITY GATE
-        // stage('Quality Gate') {
-        //     steps {
-        //         timeout(time: 1, unit: 'HOURS') {
-        //             waitForQualityGate abortPipeline: true
-        //         }
-        //     }
-        // }
+        stage('Quality Gate') {
+            steps {
+                timeout(time: 1, unit: 'HOURS') {
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
 
         // 🔷 DEPENDABOT
         // stage('Dependabot Security Check') {
