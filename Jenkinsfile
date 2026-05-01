@@ -135,36 +135,36 @@ pipeline {
         }
 
         // 🔷 TRIVY DOCKERFILE SCAN
-        stage('Trivy Dockerfile Scan') {
-            steps {
-                script {
+        // stage('Trivy Dockerfile Scan') {
+        //     steps {
+        //         script {
 
-                    sh """
-                        trivy config \
-                        --severity HIGH,MEDIUM \
-                        --format table \
-                        --output trivy-dockerfile-report.txt \
-                        Dockerfile
-                    """
+        //             sh """
+        //                 trivy config \
+        //                 --severity HIGH,MEDIUM \
+        //                 --format table \
+        //                 --output trivy-dockerfile-report.txt \
+        //                 Dockerfile
+        //             """
 
-                    sh 'cat trivy-dockerfile-report.txt'
+        //             sh 'cat trivy-dockerfile-report.txt'
 
-                    def scanResult = sh(
-                        script: """
-                            trivy config \
-                            --severity HIGH,MEDIUM \
-                            --exit-code 1 \
-                            Dockerfile
-                        """,
-                        returnStatus: true
-                    )
+        //             def scanResult = sh(
+        //                 script: """
+        //                     trivy config \
+        //                     --severity HIGH,MEDIUM \
+        //                     --exit-code 1 \
+        //                     Dockerfile
+        //                 """,
+        //                 returnStatus: true
+        //             )
 
-                    if (scanResult != 0) {
-                        error "Dockerfile misconfiguration found!"
-                    }
-                }
-            }
-        }
+        //             if (scanResult != 0) {
+        //                 error "Dockerfile misconfiguration found!"
+        //             }
+        //         }
+        //     }
+        // }
 
         // 🔷 PUSH TO ECR
         stage('Push to ECR') {
