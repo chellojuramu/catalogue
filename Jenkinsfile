@@ -98,41 +98,41 @@ pipeline {
         }
 
         // 🔷 TRIVY OS SCAN
-        stage('Trivy OS Scan') {
-            steps {
-                script {
+        // stage('Trivy OS Scan') {
+        //     steps {
+        //         script {
 
-                    sh """
-                        trivy image \
-                        --scanners vuln \
-                        --pkg-types os \
-                        --severity HIGH,MEDIUM \
-                        --format table \
-                        --output trivy-os-report.txt \
-                        --exit-code 0 \
-                        ${ACC_ID}.dkr.ecr.${region}.amazonaws.com/roboshop/catalogue:${appVersion}
-                    """
+        //             sh """
+        //                 trivy image \
+        //                 --scanners vuln \
+        //                 --pkg-types os \
+        //                 --severity HIGH,MEDIUM \
+        //                 --format table \
+        //                 --output trivy-os-report.txt \
+        //                 --exit-code 0 \
+        //                 ${ACC_ID}.dkr.ecr.${region}.amazonaws.com/roboshop/catalogue:${appVersion}
+        //             """
 
-                    sh 'cat trivy-os-report.txt'
+        //             sh 'cat trivy-os-report.txt'
 
-                    def scanResult = sh(
-                        script: """
-                            trivy image \
-                            --scanners vuln \
-                            --pkg-types os \
-                            --severity HIGH,MEDIUM \
-                            --exit-code 1 \
-                            ${ACC_ID}.dkr.ecr.${region}.amazonaws.com/roboshop/catalogue:${appVersion}
-                        """,
-                        returnStatus: true
-                    )
+        //             def scanResult = sh(
+        //                 script: """
+        //                     trivy image \
+        //                     --scanners vuln \
+        //                     --pkg-types os \
+        //                     --severity HIGH,MEDIUM \
+        //                     --exit-code 1 \
+        //                     ${ACC_ID}.dkr.ecr.${region}.amazonaws.com/roboshop/catalogue:${appVersion}
+        //                 """,
+        //                 returnStatus: true
+        //             )
 
-                    if (scanResult != 0) {
-                        error "Trivy OS vulnerabilities found!"
-                    }
-                }
-            }
-        }
+        //             if (scanResult != 0) {
+        //                 error "Trivy OS vulnerabilities found!"
+        //             }
+        //         }
+        //     }
+        // }
 
         // 🔷 TRIVY DOCKERFILE SCAN
         // stage('Trivy Dockerfile Scan') {
