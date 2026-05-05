@@ -1,15 +1,22 @@
-@Library('jenkins-test-library')
-def configMap = [
-    project: "roboshop"
-    component: "catalogue"
+// Jenkinsfile
 
+// Load the shared library configured in Jenkins (named 'jenkins-test-library')
+@Library('jenkins-test-library') _
+
+// Define a map with configuration that we will pass to the shared library step
+def configMap = [
+    project  : 'roboshop',
+    component: 'catalogue'
 ]
 
-echo "Triggering the library pipeline"
+// Simple log to show that the Jenkinsfile started
+echo 'Triggering the library pipeline'
 
-if ( env.BRANCH_NAME.equalsIgnoreCase('main') ){
-    echo "checking later"
+// env.BRANCH_NAME is provided by Jenkins (in multibranch or similar jobs)
+if (env.BRANCH_NAME?.equalsIgnoreCase('main')) {
+    // If branch is 'main', just print a message for now
+    echo 'Current branch is main, skipping testPipeline for now (checking later)'
 } else {
-    testPipeline (configMap)
+    // For other branches, call the shared library pipeline
+    testPipeline(configMap)
 }
-
